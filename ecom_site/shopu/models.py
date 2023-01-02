@@ -8,4 +8,4 @@ class Merchandises(models.Model):
   category = models.CharField(max_length=200)
   # Textfield is more detailed
   description = models.TextField()
-  image = models.CharField(max)
+  image = models.CharField(max_length=300)
