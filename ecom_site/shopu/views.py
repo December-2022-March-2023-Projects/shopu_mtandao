@@ -17,3 +17,8 @@ def index(request):
   merch_objects = paginator.get_page(page)
 
   return render(request, 'shopu/index.html',{'merch_objects':merch_objects})
+
+# Detail view
+def detail(request, id):
+  merch_object = Merchandises.objects.get(id=id)
+  return render(request,'shopu/detail.html', {'merch_object':merch_object})
