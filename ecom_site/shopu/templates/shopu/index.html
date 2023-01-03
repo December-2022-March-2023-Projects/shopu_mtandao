@@ -48,7 +48,7 @@
 
             <!-- Item detail button -->
             <a href="/{{ merch.id }}" class="btn btn-warning">View</a>
-            <a class="btn btn-warning">Add to cart</a>
+            <button id="{{merch.id}}" class="btn atc btn-warning">Add to cart</button>
           </div>
         </div>
       </div>
@@ -83,7 +83,27 @@
   console.log('Hello motto');
 
   let cart = (localStorage.getItem('cart') == null) ? {} :
-  localStorage.getItem('cart');
+  JSON.parse(localStorage.getItem('cart'));
+
+  $(document).on('click', '.atc', function(){
+    console.log('Add to cart button click');
+    // Button id
+    var item_id = this.id.toString();
+    console.log(item_id)
+
+    // cart[item_id] = 2;
+    // cart[item_id] = 3;
+
+    // Add items to cart
+    let cart_item = (cart[item_id] != undefined) ? cart[item_id] += 1:
+    cart[item_id] = 1;
+    console.log(cart);
+
+    // Save cart items locally
+    localStorage.setItem('cart', JSON.stringify(cart));
+  });
+
+
 </script>
 </html>
 
