@@ -22,3 +22,7 @@ def index(request):
 def detail(request, id):
   merch_object = Merchandises.objects.get(id=id)
   return render(request,'shopu/detail.html', {'merch_object':merch_object})
+
+# Checkout view
+def checkout(request):
+  return render(request, 'shopu/checkout.html')

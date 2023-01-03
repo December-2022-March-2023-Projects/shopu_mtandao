@@ -76,9 +76,7 @@
         <div class="card">
           <img src="{{ merch.image }}" class="card-img-top">
           <div class="card-body">
-            <div id="moi{{merch.id}}" class="card-title">
-              {{ merch.title }}
-            </div>
+            <div id="moi{{merch.id}}" class="card-title">{{merch.title }}</div>
             <div class="card-text">
               $ {{ merch.price }}
             </div>
@@ -132,8 +130,15 @@
     // cart[item_id] = 3;
 
     // Add items to cart
-    let cart_item = (cart[item_id] != undefined) ? cart[item_id] += 1:
-    cart[item_id] = 1;
+    if(cart[item_id]!=undefined){
+      quantity = cart[item_id][0] + 1;
+      cart[item_id][0] = quantity;
+    }else{
+      quantity = 1;
+      name = document.getElementById("moi"+item_id).innerHTML;
+      cart[item_id]=[quantity, name];
+
+    }
     console.log(cart);
 
     // Save cart items locally
@@ -151,7 +156,7 @@
     
   });
   // Display cart
-  
+
   Display(cart);
   function Display(cart){
     var cartString = "";
@@ -165,7 +170,10 @@
       console.log(cartObject[item][0]);
       console.log(cartObject[item[1]]);
       cartString += cartObject[item][1] + "Qty: " + cartObject[item][0] + "<br>"
+      cartIndex+=1;
     }
+
+    cartString += "<a href='/checkout'><button class='btn btn-warning' id='checkout'>Checkout</button></a>";
     document.getElementById("cart").setAttribute('data-content', cartString);
     $('[data-toggle="popover"]').popover();
   }
