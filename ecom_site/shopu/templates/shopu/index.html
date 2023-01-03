@@ -76,7 +76,7 @@
         <div class="card">
           <img src="{{ merch.image }}" class="card-img-top">
           <div class="card-body">
-            <div class="card-title">
+            <div id="moi{{merch.id}}" class="card-title">
               {{ merch.title }}
             </div>
             <div class="card-text">
@@ -140,7 +140,7 @@
     localStorage.setItem('cart', JSON.stringify(cart));
 
     // Get items in cart
-    document.getElementById("cartnav").innerHTML = "cart(" + Object.keys(cart).length + ")";
+    document.getElementById("cart").innerHTML = "Cart(" + Object.keys(cart).length + ")";
     // // Cart length
     // console.log(Object.keys(cart).length);
   });
@@ -150,6 +150,26 @@
     document.getElementById("cart").setAttribute('data-content', '<h6>This is your cart</h6>')
     
   });
+  // Display cart
+  
+  Display(cart);
+  function Display(cart){
+    var cartString = "";
+    cartString += "<h6> This is your cart </h6>";
+    var cartIndex = 1;
+
+    let cartObject = JSON.parse(localStorage.getItem('cart'))
+
+    for (item in cartObject){
+
+      console.log(cartObject[item][0]);
+      console.log(cartObject[item[1]]);
+      cartString += cartObject[item][1] + "Qty: " + cartObject[item][0] + "<br>"
+    }
+    document.getElementById("cart").setAttribute('data-content', cartString);
+    $('[data-toggle="popover"]').popover();
+  }
+  
 
 </script>
 </html>
