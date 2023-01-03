@@ -20,8 +20,9 @@
       <div class="row">
         <div class="col-md-12">
           <form method="POST">
-            // Cross site request forgery
+            <!-- // Cross site request forgery -->
             {% csrf_token %}
+                <input type="hidden" id="item" name="items">
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="inputEmail4">Name</label>
@@ -29,7 +30,7 @@
                 </div>
                 <div class="form-group col-md-6">
                   <label for="inputPassword4">Email</label>
-                  <input id="email" name = "email" type="password" class="form-control" id="inputPassword4" placeholder="otamendi@gmail.com">
+                  <input id="email" name = "email" type="text" class="form-control" id="inputName" placeholder="otamendi@gmail.com">
                 </div>
               </div>
               <div class="form-group">
@@ -57,18 +58,19 @@
   </div>
 </body>
 <script type="text/javascript">
-  if(localStorage.getItem('cart')==null) {
-    let cart = {};
-  } else {
-    cart = JSON.parse(localStorage.getItem('cart'));
-  }
-  for(item in cart){
-    let name = cart[item][1];
-    let quantity = cart[item][0];
+if(localStorage.getItem('cart')==null) {
+  let cart = {};
+} else {
+  cart = JSON.parse(localStorage.getItem('cart'));
+}
+for(item in cart){
+  let name = cart[item][1];
+  let quantity = cart[item][0];
 
-    itemString = `<li class="list-group-item">${name}-${quantity}</li>`
-    $('#item_list').append(itemString);
-  }
+  itemString = `<li class="list-group-item">${name}-${quantity}</li>`
+  $('#item_list').append(itemString);
+}
 
+$('#items').val(JSON.stringify(cart));
 </script>
 </html>
