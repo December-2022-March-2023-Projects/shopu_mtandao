@@ -78,9 +78,7 @@
           <img src="{{ merch.image }}" class="card-img-top">
           <div class="card-body">
             <div id="moi{{merch.id}}" class="card-title">{{merch.title }}</div>
-            <div class="card-text">
-              $ {{ merch.price }}
-            </div>
+            <div id="price{{product.id}}" class="card-text">{{ merch.price }}</div>
 
             <!-- Item detail button -->
             <a href="/{{ merch.id }}" class="btn btn-warning">View</a>
@@ -134,10 +132,13 @@
     if(cart[item_id]!=undefined){
       quantity = cart[item_id][0] + 1;
       cart[item_id][0] = quantity;
+      cart[item_id][2] = cart[item_id][2] + parseFloat(document.getElementById("price"+item_id).innerHTML);
+           
     }else{
       quantity = 1;
+      price = parseFloat(document.getElementById("price"+item_id).innerHTML);
       name = document.getElementById("moi"+item_id).innerHTML;
-      cart[item_id]=[quantity, name];
+      cart[item_id]=[quantity, name, price];
 
     }
     console.log(cart);
