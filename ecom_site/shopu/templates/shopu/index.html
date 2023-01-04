@@ -5,15 +5,16 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script> -->
-  <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
-
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
   <link rel="stylesheet" href="{% static 'shopu/style.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'shop/styles.css' %}">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<!--JQuery CDN-->
+  <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+<!--Pop over JS-->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<!--Bootstrap JS-->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <title>Shop till you drop</title>
 </head>
 <body>
@@ -22,7 +23,7 @@
     <div class="row">
       <div class="col-md-12">
         <nav class="navbar navbar-expand-lg navbar-light bg-light ">
-          <a class="navbar-brand" href="#">Navbar</a>
+          <a class="navbar-brand" href="#">Merch Shop</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -43,9 +44,7 @@
                               Cart(0)
                             </button>
               </li>
-              <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
-              </li>
+
             </ul>
           </div>
         </nav>
@@ -76,12 +75,8 @@
         <div class="card">
           <img src="{{ merch.image }}" class="card-img-top">
           <div class="card-body">
-            <div class="card-title">
-              {{ merch.title }}
-            </div>
-            <div class="card-text">
-              $ {{ merch.price }}
-            </div>
+            <div id="moi{{merch.id}}" class="card-title">{{ merch.title }}</div>
+            <div id="price{{merch.id}}" class="card-text">{{ merch.price }}</div>
 
             <!-- Item detail button -->
             <a href="/{{ merch.id }}" class="btn btn-warning">View</a>
@@ -125,31 +120,67 @@
   $(document).on('click', '.atc', function(){
     console.log('Add to cart button click');
     // Button id
-    var item_id = this.id.toString();
+    let item_id = this.id.toString();
     console.log(item_id)
 
     // cart[item_id] = 2;
     // cart[item_id] = 3;
 
     // Add items to cart
-    let cart_item = (cart[item_id] != undefined) ? cart[item_id] += 1:
-    cart[item_id] = 1;
+    if(cart[item_id]!=undefined){
+      quantity = cart[item_id][0] + 1;
+      cart[item_id][0] = quantity;
+      cart[item_id][2] += parseFloat(document.getElementById("price"+item_id).innerHTML);
+           
+    }
+    else{
+      quantity = 1;
+      price = parseFloat(document.getElementById("price"+item_id).innerHTML);
+      name = document.getElementById("moi"+item_id).innerHTML;
+      cart[item_id]=[quantity, name, price];
+
+    }
     console.log(cart);
 
     // Save cart items locally
     localStorage.setItem('cart', JSON.stringify(cart));
 
     // Get items in cart
-    document.getElementById("cartnav").innerHTML = "cart(" + Object.keys(cart).length + ")";
+    document.getElementById("cart").innerHTML = "Cart(" + Object.keys(cart).length + ")"
     // // Cart length
     // console.log(Object.keys(cart).length);
   });
 
-  $(function () {
-    $('[data-toggle="popover"]').popover();
-    document.getElementById("cart").setAttribute('data-content', '<h6>This is your cart</h6>')
+  // $(function () {
+  //   $('[data-toggle="popover"]').popover();
+  //   document.getElementById("cart").setAttribute('data-content', '<h6>This is your cart</h6>')
     
-  });
+  // });
+  // Display cart
+
+   window.onload = function() {
+    cartDisplay(cart);
+    function cartDisplay(cart){
+      let cartString = "";
+      cartString += "<h6> This is your cart </h6>";
+      let cartIndex = 1;
+
+      let cartObject = JSON.parse(localStorage.getItem('cart'))
+
+      for (item in cartObject){
+
+        console.log(cartObject[item][0]);
+        console.log(cartObject[item[1]]);
+        cartString += cartObject[item][1] + "Qty: " + cartObject[item][0] + "<br>"
+        cartIndex+=1;
+      }
+
+      cartString += "<a href='/checkout'><button class='btn btn-warning' id='checkout'>Checkout</button></a>";
+      document.getElementById("cart").setAttribute('data-content', cartString);
+      $('[data-toggle="popover"]').popover();
+    }
+}
+  
 
 </script>
 </html>
