@@ -17,6 +17,7 @@ class Merchandises(models.Model):
   #       return self.name
   # Order model
 class Order(models.Model):
+
   items = models.CharField(max_length=1000)
   name = models.CharField(max_length=200)
   email = models.CharField(max_length=200)
