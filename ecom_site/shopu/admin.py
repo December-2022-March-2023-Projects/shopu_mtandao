@@ -16,6 +16,8 @@ class MerchAdmin(admin.ModelAdmin):
   list_display = ('title', 'price', 'discount_price', 'category', 'description', 'image')
   search_fields = ('category',)
   actions = ('adjust_category_to_default',)
+  fields = ('title','description' )
+  list_editable = ('price', 'category')
 
 admin.site.register(Merchandises, MerchAdmin)
 admin.site.register(Order)
