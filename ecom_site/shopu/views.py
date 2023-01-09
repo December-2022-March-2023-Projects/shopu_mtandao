@@ -12,7 +12,7 @@ def index(request):
     merch_objects = merch_objects.filter(title__icontains=item_name)
 
   # paginiator
-  paginator = Paginator(merch_objects, 4)
+  paginator = Paginator(merch_objects, 8)
   page = request.GET.get('page')
   merch_objects = paginator.get_page(page)
 
